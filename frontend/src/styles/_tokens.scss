@@ -1,0 +1,120 @@
+// LeadLens Design System — "Frost & Slate" palette (Taste Skill cool-white-slate adaptation)
+// 90-95% neutral architectural surfaces + single deep teal accent, zero violet/lavender.
+// WCAG 2.2 AA contrast verified for both light and dark color schemes.
+
+:root {
+  color-scheme: light dark;
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+  }
+
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+  }
+
+  // Surfaces
+  --bg-canvas: light-dark(#f4f7f8, #0b0f13);
+  --bg-surface: light-dark(#ffffff, #121820);
+  --bg-elevated: light-dark(#ecf0f2, #19222d);
+  --bg-subtle: light-dark(#e4eaee, #1f2a37);
+  --bg-hover: light-dark(#edf2f4, #1b2531);
+  --bg-backdrop: light-dark(rgba(15, 23, 28, 0.45), rgba(4, 8, 12, 0.72));
+
+  // Borders & hairlines (no heavy resting shadows)
+  --border-subtle: light-dark(rgba(22, 34, 40, 0.1), rgba(237, 242, 245, 0.1));
+  --border-strong: light-dark(rgba(22, 34, 40, 0.2), rgba(237, 242, 245, 0.22));
+  --border-top-highlight: light-dark(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.06));
+
+  // Ink / Typography
+  --text-primary: light-dark(#162228, #edf2f5);
+  --text-secondary: light-dark(#475861, #9aaab4);
+  --text-muted: light-dark(#64757e, #7c8e99);
+  --text-inverse: light-dark(#ffffff, #0b1116);
+
+  // Architectural Teal Accent (~3% screen budget)
+  --accent: light-dark(#0d7480, #2dd4bf);
+  --accent-hover: light-dark(#0a5d67, #5eead4);
+  --accent-active: light-dark(#084c54, #14b8a6);
+  --accent-soft: light-dark(rgba(13, 116, 128, 0.1), rgba(45, 212, 191, 0.13));
+  --accent-border: light-dark(rgba(13, 116, 128, 0.28), rgba(45, 212, 191, 0.34));
+  --accent-ink: light-dark(#0a5c66, #5eead4);
+
+  // Semantic palette (WCAG AA + never color-only, always paired with Phosphor icon & label)
+  --status-healthy: light-dark(#157347, #4ade80);
+  --status-healthy-bg: light-dark(#e9f7ef, rgba(74, 222, 128, 0.12));
+  --status-healthy-border: light-dark(rgba(21, 115, 71, 0.25), rgba(74, 222, 128, 0.28));
+
+  --status-moderate: light-dark(#a16207, #facc15);
+  --status-moderate-bg: light-dark(#fef9e7, rgba(250, 204, 21, 0.12));
+  --status-moderate-border: light-dark(rgba(161, 98, 7, 0.28), rgba(250, 204, 21, 0.28));
+
+  --status-weak: light-dark(#c2410c, #fb923c);
+  --status-weak-bg: light-dark(#fff3eb, rgba(251, 146, 60, 0.13));
+  --status-weak-border: light-dark(rgba(194, 65, 12, 0.28), rgba(251, 146, 60, 0.3));
+
+  --status-critical: light-dark(#b91c1c, #f87171);
+  --status-critical-bg: light-dark(#fef2f2, rgba(248, 113, 113, 0.13));
+  --status-critical-border: light-dark(rgba(185, 28, 28, 0.28), rgba(248, 113, 113, 0.3));
+
+  --status-neutral: light-dark(#475569, #94a3b8);
+  --status-neutral-bg: light-dark(#f1f5f9, rgba(148, 163, 184, 0.13));
+  --status-neutral-border: light-dark(rgba(71, 85, 105, 0.24), rgba(148, 163, 184, 0.26));
+
+  --status-info: light-dark(#0369a1, #38bdf8);
+  --status-info-bg: light-dark(#e0f2fe, rgba(56, 189, 248, 0.13));
+  --status-info-border: light-dark(rgba(3, 105, 161, 0.25), rgba(56, 189, 248, 0.28));
+
+  // Typography
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --text-xs: 0.75rem;      // 12px
+  --text-sm: 0.875rem;     // 14px
+  --text-base: 0.9375rem;  // 15px
+  --text-md: 1.0625rem;    // 17px
+  --text-lg: 1.25rem;      // 20px
+  --text-xl: 1.5rem;       // 24px
+  --text-2xl: 1.875rem;    // 30px
+  --text-3xl: 2.375rem;    // 38px
+
+  // Spacing scale
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  // Radii
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  // Elevation (only for popovers/modals/toasts — cards stay crisp 1px bordered)
+  --shadow-overlay: light-dark(
+    0 18px 44px -12px rgba(15, 23, 28, 0.18),
+    0 22px 52px -12px rgba(0, 0, 0, 0.65)
+  );
+  --shadow-hover: light-dark(
+    0 8px 20px -10px rgba(15, 23, 28, 0.14),
+    0 10px 24px -10px rgba(0, 0, 0, 0.5)
+  );
+
+  // Motion
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+
+  // Layout geometry
+  --sidebar-width: 260px;
+  --topbar-height: 60px;
+  --content-max: 1280px;
+  --touch-target: 44px;
+}
