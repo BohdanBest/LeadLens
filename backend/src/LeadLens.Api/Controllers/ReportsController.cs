@@ -355,7 +355,9 @@ public class ReportsController : ControllerBase
             campaignMedianScore,
             categoryComparisons,
             findingDtos,
-            contactDtos);
+            contactDtos,
+            $"audits/{audit.Id}/desktop.png",
+            $"audits/{audit.Id}/mobile.png");
     }
 
     private static string HashToken(string rawToken) =>

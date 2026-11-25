@@ -213,6 +213,8 @@ export interface SiteReportDto {
   categoryComparisons: CategoryComparisonDto[];
   findings: FindingDto[];
   contacts: ContactDto[];
+  desktopScreenshotRef?: string | null;
+  mobileScreenshotRef?: string | null;
 }
 
 export interface LeadListItemDto {

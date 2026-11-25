@@ -54,7 +54,9 @@ public record SiteReportDto(
     decimal? CampaignMedianScore,
     IReadOnlyList<CategoryComparisonDto> CategoryComparisons,
     IReadOnlyList<FindingDto> Findings,
-    IReadOnlyList<ContactDto> Contacts);
+    IReadOnlyList<ContactDto> Contacts,
+    string? DesktopScreenshotRef = null,
+    string? MobileScreenshotRef = null);
 
 public record ReportShareLinkDto(
     Guid Id,

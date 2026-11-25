@@ -109,6 +109,29 @@ export function SiteReportPage() {
     const seen = new Set<string>();
     const collected: ScreenshotItem[] = [];
 
+    const desktopRef = report.desktopScreenshotRef ?? `audits/${report.auditId}/desktop.png`;
+    const mobileRef = report.mobileScreenshotRef ?? `audits/${report.auditId}/mobile.png`;
+
+    if (desktopRef) {
+      seen.add(desktopRef);
+      collected.push({
+        id: `${report.auditId}-desktop`,
+        fileRef: desktopRef,
+        variant: "desktop",
+        label: t("report.desktopView"),
+      });
+    }
+
+    if (mobileRef) {
+      seen.add(mobileRef);
+      collected.push({
+        id: `${report.auditId}-mobile`,
+        fileRef: mobileRef,
+        variant: "mobile",
+        label: t("report.mobileView"),
+      });
+    }
+
     for (const f of report.findings) {
       for (const ev of f.evidences) {
         if (ev.kind !== "Screenshot" || !ev.fileRef || seen.has(ev.fileRef)) continue;
