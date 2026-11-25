@@ -1,0 +1,112 @@
+@use "@/styles/mixins" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+}
+
+.pageSubtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox {
+  inline-size: 18px;
+  block-size: 18px;
+  cursor: pointer;
+}
+
+.loadingStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.campaignLink {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--accent-ink);
+    text-decoration: underline;
+  }
+}
+
+.nicheCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.regionText {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.monoCell {
+  @include mono-text;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.failedCount {
+  margin-inline-start: 0.45rem;
+  font-size: var(--text-xs);
+  color: var(--status-critical);
+}
+
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.deleteBtn {
+  &:hover:not(:disabled) {
+    color: var(--status-critical);
+    background: var(--status-critical-bg);
+  }
+}

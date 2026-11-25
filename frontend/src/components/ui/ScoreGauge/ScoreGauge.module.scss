@@ -1,0 +1,90 @@
+@use "@/styles/mixins" as *;
+
+.gauge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.md {
+  inline-size: 112px;
+  block-size: 112px;
+
+  .value {
+    font-size: 1.7rem;
+  }
+}
+
+.lg {
+  inline-size: 144px;
+  block-size: 144px;
+
+  .value {
+    font-size: 2.15rem;
+  }
+}
+
+.svg {
+  inline-size: 100%;
+  block-size: 100%;
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: var(--bg-subtle);
+  stroke-width: 9;
+}
+
+.progress {
+  fill: none;
+  stroke: var(--gauge-color, var(--accent));
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.value {
+  @include tabular-nums;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.outOf {
+  @include mono-text;
+  margin-block-start: 0.2rem;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.healthy {
+  --gauge-color: var(--status-healthy);
+}
+
+.moderate {
+  --gauge-color: var(--status-moderate);
+}
+
+.weak {
+  --gauge-color: var(--status-weak);
+}
+
+.critical {
+  --gauge-color: var(--status-critical);
+}
+
+.neutral {
+  --gauge-color: var(--status-neutral);
+}

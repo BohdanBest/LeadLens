@@ -1,0 +1,155 @@
+@use "@/styles/mixins" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+}
+
+.pageSubtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(4, minmax(140px, 1fr)) auto;
+  gap: var(--space-3);
+  align-items: center;
+
+  @include respond-md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-sm {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bulkBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-border);
+  background: var(--accent-soft);
+}
+
+.bulkCount {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+
+.bulkControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.bulkSelect {
+  min-inline-size: 180px;
+}
+
+.tableStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.checkCol {
+  inline-size: 42px;
+}
+
+.checkbox {
+  inline-size: 18px;
+  block-size: 18px;
+  cursor: pointer;
+}
+
+.domainCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.domainLink {
+  @include mono-text;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--accent-ink);
+    text-decoration: underline;
+  }
+}
+
+.bizName {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.campaignLink {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--accent-ink);
+    text-decoration: underline;
+  }
+}
+
+.scoreCell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.scoreNum {
+  @include mono-text;
+  font-weight: 800;
+  min-inline-size: 28px;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.mutedDash {
+  color: var(--text-muted);
+}
+
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.loadMoreRow {
+  display: flex;
+  justify-content: center;
+}

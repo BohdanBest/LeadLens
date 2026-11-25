@@ -1,0 +1,109 @@
+@use "@/styles/mixins" as *;
+
+.viewport {
+  position: fixed;
+  inset-block-end: var(--space-5);
+  inset-inline-end: var(--space-5);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  inline-size: min(380px, calc(100vw - 2rem));
+  pointer-events: none;
+
+  @include respond-sm {
+    inset-inline: var(--space-3);
+    inset-block-end: var(--space-3);
+    inline-size: auto;
+  }
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-inline-start-width: 3px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-overlay);
+}
+
+.icon {
+  display: inline-flex;
+  margin-block-start: 2px;
+  flex-shrink: 0;
+}
+
+.content {
+  min-inline-size: 0;
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.description {
+  margin: 0.2rem 0 0;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.closeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+  }
+}
+
+.success {
+  border-inline-start-color: var(--status-healthy);
+
+  .icon {
+    color: var(--status-healthy);
+  }
+}
+
+.error {
+  border-inline-start-color: var(--status-critical);
+
+  .icon {
+    color: var(--status-critical);
+  }
+}
+
+.warning {
+  border-inline-start-color: var(--status-moderate);
+
+  .icon {
+    color: var(--status-moderate);
+  }
+}
+
+.info {
+  border-inline-start-color: var(--accent);
+
+  .icon {
+    color: var(--accent);
+  }
+}

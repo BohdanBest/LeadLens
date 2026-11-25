@@ -1,0 +1,64 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--bg-subtle) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1.35s var(--ease-out) infinite;
+  }
+}
+
+.line {
+  block-size: 16px;
+  inline-size: 100%;
+}
+
+.title {
+  block-size: 28px;
+  inline-size: 42%;
+  min-inline-size: 180px;
+}
+
+.kpi {
+  block-size: 112px;
+  border-radius: var(--radius-md);
+}
+
+.card {
+  block-size: 220px;
+  border-radius: var(--radius-md);
+}
+
+.row {
+  block-size: 52px;
+  border-radius: var(--radius-sm);
+}
+
+.gauge {
+  inline-size: 148px;
+  block-size: 148px;
+  border-radius: 50%;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

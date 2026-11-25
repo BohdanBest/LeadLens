@@ -1,0 +1,190 @@
+@use "@/styles/mixins" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+}
+
+.pageSubtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.loadingGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+
+  @include respond-md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-sm {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpiCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.kpiTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.kpiLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.kpiIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 38px;
+  block-size: 38px;
+  border-radius: var(--radius-sm);
+}
+
+.kpi_accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.kpi_healthy {
+  background: var(--status-healthy-bg);
+  color: var(--status-healthy);
+}
+
+.kpi_weak {
+  background: var(--status-weak-bg);
+  color: var(--status-weak);
+}
+
+.kpi_neutral {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.kpiValue {
+  @include tabular-nums;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+
+  @include respond-md {
+    grid-template-columns: 1fr;
+  }
+}
+
+.barList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.barRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.barMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.barLabelGroup {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  flex-wrap: wrap;
+}
+
+.barLabel,
+.barLink {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.barLink:hover {
+  color: var(--accent-ink);
+  text-decoration: underline;
+}
+
+.barSubtext {
+  @include mono-text;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.barNum {
+  @include mono-text;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.emptyInline {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.numCell {
+  @include mono-text;
+  font-weight: 700;
+}
+
+.monoCell {
+  @include mono-text;
+  font-weight: 600;
+}

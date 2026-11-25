@@ -1,0 +1,52 @@
+.track {
+  position: relative;
+  inline-size: 100%;
+  border-radius: var(--radius-full);
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.sm {
+  block-size: 6px;
+}
+
+.md {
+  block-size: 10px;
+}
+
+.lg {
+  block-size: 14px;
+}
+
+.fill {
+  block-size: 100%;
+  inline-size: 100%;
+  border-radius: var(--radius-full);
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.accent {
+  background: var(--accent);
+}
+
+.healthy {
+  background: var(--status-healthy);
+}
+
+.moderate {
+  background: var(--status-moderate);
+}
+
+.weak {
+  background: var(--status-weak);
+}
+
+.critical {
+  background: var(--status-critical);
+}
+
+.neutral {
+  background: var(--status-neutral);
+}

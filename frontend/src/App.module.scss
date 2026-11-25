@@ -1,0 +1,14 @@
+.bootScreen {
+  min-block-size: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  background: var(--bg-canvas);
+}
+
+.bootBox {
+  inline-size: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}

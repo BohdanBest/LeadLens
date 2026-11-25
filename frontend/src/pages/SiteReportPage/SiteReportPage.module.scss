@@ -1,0 +1,475 @@
+@use "@/styles/mixins" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.domainRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  @include mono-text;
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+}
+
+.externalLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 34px;
+  block-size: 34px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+
+  &:hover {
+    background: var(--bg-elevated);
+    color: var(--accent-ink);
+  }
+}
+
+.versionRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.versionLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.versionSelect {
+  min-block-size: 34px;
+  padding-block: 0.25rem;
+  inline-size: auto;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.shareBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.shareUrlWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--text-xs);
+}
+
+.shareLink {
+  @include mono-text;
+  overflow-wrap: anywhere;
+}
+
+.shareExpiry {
+  color: var(--text-secondary);
+}
+
+.shareActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: var(--space-5);
+
+  @include respond-md {
+    grid-template-columns: 1fr;
+  }
+}
+
+.scoreCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.scoreHero {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+
+  @include respond-sm {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.scoreInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+.scoreBadges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.summaryText {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.metaStrip {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--border-subtle);
+
+  @include respond-sm {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metaCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  dt {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  dd {
+    @include mono-text;
+    margin: 0;
+    font-size: var(--text-md);
+    font-weight: 800;
+  }
+}
+
+.tabsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.tabPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.findingsToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.findingsStats {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.findingsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.findingCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.findingHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.findingTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.findingTitle {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.findingDesc {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.findingMeta {
+  margin: var(--space-1) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  padding-block-start: var(--space-2);
+  border-block-start: 1px solid var(--border-subtle);
+
+  dt {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  dd {
+    margin: 0.1rem 0 0;
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+}
+
+.monoVal {
+  @include mono-text;
+}
+
+.catList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.catRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.catTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.catName {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.catNumbers {
+  @include mono-text;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-xs);
+}
+
+.catMedian {
+  color: var(--text-muted);
+}
+
+.catBars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+
+  @include respond-md {
+    grid-template-columns: 1fr;
+  }
+}
+
+.emptyHint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.contactList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.contactIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.contactBody {
+  min-inline-size: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.contactMain {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.contactVal {
+  @include mono-text;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.contactSrc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.contactBtns {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.contactEditItem {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-border);
+  background: var(--bg-surface);
+}
+
+.contactEditForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.editActions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.stackForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tagChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.timeline {
+  margin-block-start: var(--space-5);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.timelineItem {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.timelineHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.timelineTime {
+  @include mono-text;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.timelineNote {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.timelineDue {
+  @include mono-text;
+  font-size: var(--text-xs);
+  color: var(--status-moderate);
+  font-weight: 600;
+}

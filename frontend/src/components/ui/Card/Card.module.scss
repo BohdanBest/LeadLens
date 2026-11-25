@@ -1,0 +1,93 @@
+@use "@/styles/mixins" as *;
+
+.card {
+  @include surface-card;
+  min-inline-size: 0;
+}
+
+.pad_none {
+  padding: 0;
+}
+
+.pad_sm {
+  padding: var(--space-4);
+}
+
+.pad_md {
+  padding: var(--space-5);
+
+  @include respond-sm {
+    padding: var(--space-4);
+  }
+}
+
+.pad_lg {
+  padding: var(--space-6);
+
+  @include respond-sm {
+    padding: var(--space-4);
+  }
+}
+
+.tone_elevated {
+  background: var(--bg-elevated);
+}
+
+.tone_danger {
+  border-color: var(--status-critical-border);
+}
+
+.tone_accent {
+  border-color: var(--accent-border);
+  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--bg-surface) 100%);
+}
+
+.interactive {
+  @include interactive-card;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-block-end: var(--space-4);
+}
+
+.headerText {
+  min-inline-size: 0;
+  flex: 1 1 200px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.headerIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.headerAction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}

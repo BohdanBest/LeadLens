@@ -1,0 +1,123 @@
+@use "@/styles/mixins" as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-block-start: var(--space-3);
+}
+
+.item {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-block-end: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.codeBlock {
+  @include mono-text;
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.metricText {
+  @include mono-text;
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.bulletList {
+  margin: 0;
+  padding-inline-start: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.bulletItem {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.monoVal,
+.monoLink {
+  @include mono-text;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.kvGrid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2) var(--space-4);
+}
+
+.kvRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.kvKey {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.kvVal {
+  @include mono-text;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.thumbBtn {
+  display: block;
+  padding: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-canvas);
+  cursor: zoom-in;
+  max-inline-size: 320px;
+}
+
+.thumbImg {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.modalImgWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.modalImg {
+  max-inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--radius-sm);
+}

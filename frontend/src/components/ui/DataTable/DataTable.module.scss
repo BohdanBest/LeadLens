@@ -1,0 +1,119 @@
+@use "@/styles/mixins" as *;
+
+.wrapper {
+  overflow-x: auto;
+  max-inline-size: 100%;
+  container-type: inline-size;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--text-sm);
+
+  thead {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background: var(--bg-elevated);
+  }
+
+  th {
+    text-align: start;
+    padding: 0.72rem 0.9rem;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border-block-end: 1px solid var(--border-subtle);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.8rem 0.9rem;
+    border-block-end: 1px solid var(--border-subtle);
+    vertical-align: middle;
+    color: var(--text-primary);
+  }
+
+  tbody tr:last-child td {
+    border-block-end: 0;
+  }
+
+  tbody tr {
+    transition: background-color var(--dur-fast) var(--ease-out);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--bg-hover);
+      }
+    }
+  }
+}
+
+.compact {
+  th,
+  td {
+    padding: 0.58rem 0.75rem;
+  }
+}
+
+@container (width < 640px) {
+  .wrapper {
+    border: 0;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    inline-size: 100%;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .table tbody tr {
+    @include surface-card;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 0.45rem 0;
+    border-block-end: 1px solid var(--border-subtle);
+    text-align: end;
+
+    &::before {
+      content: attr(data-label);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-align: start;
+      flex-shrink: 0;
+    }
+
+    &:last-child {
+      border-block-end: 0;
+      padding-block-end: 0.15rem;
+    }
+  }
+}
