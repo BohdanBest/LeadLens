@@ -1,0 +1,31 @@
+{
+  "samples": 30,
+  "positive_leads": 13,
+  "needs_help_threshold": 50.0,
+  "k": 10,
+  "baseline_spearman": 0.9577,
+  "calibrated_spearman": 0.9786,
+  "baseline_precision_at_10": 1.0,
+  "calibrated_precision_at_10": 1.0,
+  "spearman_target_met": true,
+  "initial_weights": {
+    "performance": 20.0,
+    "mobile": 15.0,
+    "seo": 15.0,
+    "security": 15.0,
+    "accessibility": 10.0,
+    "technology": 10.0,
+    "integrity": 10.0,
+    "business": 5.0
+  },
+  "calibrated_weights": {
+    "performance": 24.0,
+    "mobile": 15.0,
+    "seo": 17.0,
+    "security": 13.0,
+    "accessibility": 8.0,
+    "technology": 14.0,
+    "integrity": 2.0,
+    "business": 7.0
+  }
+}

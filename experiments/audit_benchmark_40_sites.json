@@ -1,0 +1,13 @@
+{
+  "total_attempts": 40,
+  "completed": 39,
+  "failed": 1,
+  "completion_rate": 0.975,
+  "median_duration_seconds": 36.27,
+  "p90_duration_seconds": 43.86,
+  "max_duration_seconds": 52.07,
+  "targets_met": {
+    "completion_rate_ge_90pct": true,
+    "p90_le_120s": true
+  }
+}
