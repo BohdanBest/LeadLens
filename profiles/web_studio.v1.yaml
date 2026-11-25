@@ -1,0 +1,867 @@
+key: web_studio
+version: 1
+name:
+  uk: Веб-студія (базовий профіль)
+  en: Web Studio (default profile)
+
+categories:
+  - key: performance
+    weight: 20
+    name:
+      uk: Продуктивність
+      en: Performance
+  - key: mobile
+    weight: 15
+    name:
+      uk: Мобільна версія
+      en: Mobile Friendliness
+  - key: seo
+    weight: 15
+    name:
+      uk: SEO
+      en: SEO
+  - key: security
+    weight: 15
+    name:
+      uk: Безпека
+      en: Security
+  - key: accessibility
+    weight: 10
+    name:
+      uk: Доступність
+      en: Accessibility
+  - key: technology
+    weight: 10
+    name:
+      uk: Технології
+      en: Technology
+  - key: integrity
+    weight: 10
+    name:
+      uk: Цілісність
+      en: Integrity
+  - key: business
+    weight: 5
+    name:
+      uk: Бізнес-елементи
+      en: Business Elements
+
+checks:
+  # --- Performance (20%) ---
+  - id: PERF-01
+    category: performance
+    weight: 1.5
+    impact: 5
+    effort: 3
+    service: performance_optimization
+    service_label:
+      uk: оптимізацією швидкості завантаження
+      en: page speed optimization
+    title:
+      uk: Повільне завантаження основного контенту (LCP на мобільному)
+      en: Slow mobile Largest Contentful Paint (LCP)
+    description:
+      uk: Головний екран на мобільному завантажується надто довго, що підвищує відмови відвідувачів.
+      en: Main mobile content takes too long to load, increasing visitor bounce rate.
+    claim_template:
+      uk: "головний екран на мобільному завантажується за {value} (рекомендовано до 2,5 с)"
+      en: "the main mobile screen loads in {value} (recommended under 2.5s)"
+    thresholds:
+      warning_ms: 2500
+      fail_ms: 4000
+
+  - id: PERF-02
+    category: performance
+    weight: 1.0
+    impact: 4
+    effort: 2
+    service: performance_optimization
+    service_label:
+      uk: стабілізацією верстки та швидкодії
+      en: layout stability and speed optimization
+    title:
+      uk: Зсув макета під час завантаження (CLS)
+      en: Cumulative Layout Shift (CLS)
+    description:
+      uk: Елементи сторінки стрибають під час рендерингу, що заважає користувачам натискати кнопки.
+      en: Page elements shift unexpectedly while loading, causing misclicks.
+    claim_template:
+      uk: "показник візуального зсуву сторінки (CLS) становить {value} (норма до 0,1)"
+      en: "visual layout shift (CLS) is {value} (target under 0.1)"
+    thresholds:
+      warning: 0.1
+      fail: 0.25
+
+  - id: PERF-03
+    category: performance
+    weight: 1.0
+    impact: 4
+    effort: 3
+    service: performance_optimization
+    service_label:
+      uk: оптимізацією скриптів та чуйності інтерфейсу
+      en: script and interactivity optimization
+    title:
+      uk: Високий час блокування інтерфейсу (TBT)
+      en: High Total Blocking Time (TBT)
+    description:
+      uk: Скрипти блокують основний потік браузера, через що сторінка реагує із затримкою.
+      en: Heavy scripts block the browser main thread, delaying user interactions.
+    claim_template:
+      uk: "час блокування взаємодії (TBT) складає {value} (рекомендовано до 200 мс)"
+      en: "Total Blocking Time (TBT) reaches {value} (recommended under 200ms)"
+    thresholds:
+      warning_ms: 200
+      fail_ms: 600
+
+  - id: PERF-04
+    category: performance
+    weight: 1.0
+    impact: 3
+    effort: 2
+    service: performance_optimization
+    service_label:
+      uk: оптимізацією ресурсів сайту
+      en: asset weight optimization
+    title:
+      uk: Надмірна вага головної сторінки
+      en: Excessive home page payload size
+    description:
+      uk: Головна сторінка завантажує занадто великий обсяг даних, що критично для мобільного інтернету.
+      en: The homepage downloads an excessive amount of data, slowing down mobile visitors.
+    claim_template:
+      uk: "загальна вага головної сторінки становить {value} (бажано до 3 МБ)"
+      en: "total homepage size is {value} (recommended under 3 MB)"
+    thresholds:
+      warning_mb: 3.0
+      fail_mb: 6.0
+
+  - id: PERF-05
+    category: performance
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: performance_optimization
+    service_label:
+      uk: стисненням та оптимізацією медіа
+      en: image compression and media optimization
+    title:
+      uk: Незжаті великі зображення
+      en: Uncompressed large images
+    description:
+      uk: На сторінці знайдено зображення понад 500 КБ без сучасного стиснення або зменшення розміру.
+      en: Images larger than 500 KB were detected without proper compression or sizing.
+    claim_template:
+      uk: "на сторінці виявлено великі незжаті зображення ({value})"
+      en: "large uncompressed images were found ({value})"
+    thresholds:
+      image_kb: 500
+      fail_count: 5
+
+  # --- Mobile (15%) ---
+  - id: MOB-01
+    category: mobile
+    weight: 1.5
+    impact: 5
+    effort: 1
+    service: responsive_redesign
+    service_label:
+      uk: адаптивним дизайном під мобільні пристрої
+      en: responsive mobile redesign
+    title:
+      uk: Відсутній мета-тег viewport
+      en: Missing viewport meta tag
+    description:
+      uk: Браузер не масштабує сайт під екран смартфона, через що текст і кнопки занадто дрібні.
+      en: Without a viewport meta tag, mobile browsers render a shrunk desktop page.
+    claim_template:
+      uk: "на сайті відсутній тег meta viewport для коректного відображення на смартфонах"
+      en: "the viewport meta tag is missing, breaking mobile scaling"
+    thresholds:
+      required: true
+
+  - id: MOB-02
+    category: mobile
+    weight: 1.5
+    impact: 4
+    effort: 2
+    service: responsive_redesign
+    service_label:
+      uk: виправленням мобільної верстки
+      en: mobile layout fixes
+    title:
+      uk: Горизонтальна прокрутка на екрані 390 px
+      en: Horizontal overflow on 390px mobile viewport
+    description:
+      uk: Контент виходить за межі ширини мобільного екрана, утворюючи горизонтальний скрол.
+      en: Page content overflows the 390px mobile screen width, causing horizontal scrolling.
+    claim_template:
+      uk: "у мобільній версії (390 px) з’являється горизонтальна прокрутка ({value})"
+      en: "horizontal scrolling appears on mobile 390px screens ({value})"
+    thresholds:
+      max_overflow_px: 2
+
+  - id: MOB-03
+    category: mobile
+    weight: 1.0
+    impact: 3
+    effort: 2
+    service: responsive_redesign
+    service_label:
+      uk: покращенням мобільного UX
+      en: mobile UX improvements
+    title:
+      uk: Занадто малі елементи натискання на мобільному
+      en: Tap targets too small on mobile
+    description:
+      uk: Значна частка кнопок та посилань має розмір менший за 24×24 px, що ускладнює натискання пальцем.
+      en: Many buttons or links are smaller than 24×24 px, making them hard to tap on touchscreens.
+    claim_template:
+      uk: "{value} інтерактивних елементів на мобільному менші за 24×24 px"
+      en: "{value} of mobile tap targets are smaller than 24×24 px"
+    thresholds:
+      min_size_px: 24
+      warning_pct: 20
+      fail_pct: 50
+
+  - id: MOB-04
+    category: mobile
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: responsive_redesign
+    service_label:
+      uk: налаштуванням мобільної типографіки
+      en: mobile typography adjustments
+    title:
+      uk: Занадто дрібний основний шрифт на мобільному
+      en: Small base font size on mobile
+    description:
+      uk: Розмір основного тексту менший за рекомендовані 14 px, користувачам доводиться наближати сторінку.
+      en: Base body text is smaller than 14 px, requiring pinch-to-zoom to read.
+    claim_template:
+      uk: "основний текст у мобільній версії має розмір {value} (рекомендовано від 14 px)"
+      en: "base body text on mobile is {value} (recommended at least 14 px)"
+    thresholds:
+      warning_px: 14
+      fail_px: 12
+
+  # --- SEO (15%) ---
+  - id: SEO-01
+    category: seo
+    weight: 1.2
+    impact: 4
+    effort: 1
+    service: technical_seo
+    service_label:
+      uk: технічним SEO-налаштуванням
+      en: technical SEO setup
+    title:
+      uk: Проблеми з тегом title
+      en: Title tag issues
+    description:
+      uk: Заголовок сторінки відсутній, перевищує рекомендовану довжину або дублюється на внутрішніх сторінках.
+      en: The page title tag is missing, too long, or duplicated across internal pages.
+    claim_template:
+      uk: "виявлено проблему з тегом title ({value})"
+      en: "a title tag issue was detected ({value})"
+    thresholds:
+      max_length: 65
+
+  - id: SEO-02
+    category: seo
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: technical_seo
+    service_label:
+      uk: технічним SEO-налаштуванням
+      en: technical SEO setup
+    title:
+      uk: Відсутній meta description
+      en: Missing meta description
+    description:
+      uk: Пошукові системи не мають підготовленого опису сторінки для сніпета у видачі.
+      en: Search engines lack a curated page description for search result snippets.
+    claim_template:
+      uk: "на сторінці відсутній мета-опис (meta description) для пошукової видачі"
+      en: "the page is missing a meta description for search snippets"
+    thresholds:
+      required: true
+
+  - id: SEO-03
+    category: seo
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: technical_seo
+    service_label:
+      uk: структуризацією заголовків та SEO
+      en: heading structure and SEO fixes
+    title:
+      uk: Некоректна кількість заголовків H1
+      en: Invalid H1 heading count
+    description:
+      uk: На сторінці відсутній головний заголовок H1 або їх використано декілька одночасно.
+      en: The page either lacks an H1 heading or uses multiple H1 headings.
+    claim_template:
+      uk: "кількість заголовків H1 на головній сторінці — {value} (рекомендовано рівно 1)"
+      en: "the homepage has {value} H1 headings (recommended exactly 1)"
+    thresholds:
+      expected: 1
+
+  - id: SEO-04
+    category: seo
+    weight: 0.8
+    impact: 3
+    effort: 1
+    service: technical_seo
+    service_label:
+      uk: технічним SEO-налаштуванням
+      en: technical SEO setup
+    title:
+      uk: Відсутній файл sitemap.xml
+      en: Missing sitemap.xml
+    description:
+      uk: Файл карти сайту sitemap.xml недоступний, що ускладнює індексацію нових сторінок пошуковиками.
+      en: The sitemap.xml file is missing, hindering search engine discovery of pages.
+    claim_template:
+      uk: "на домені не знайдено карту сайту sitemap.xml"
+      en: "sitemap.xml was not found on the domain"
+    thresholds:
+      required: true
+
+  - id: SEO-05
+    category: seo
+    weight: 0.8
+    impact: 2
+    effort: 1
+    service: technical_seo
+    service_label:
+      uk: SEO-оптимізацією контенту
+      en: content SEO optimization
+    title:
+      uk: Зображення без атрибуту alt
+      en: Images missing alt attributes
+    description:
+      uk: Значна частина зображень не має описового атрибуту alt, що знижує видимість у пошуку й доступність.
+      en: Many images lack descriptive alt text, hurting image search visibility and accessibility.
+    claim_template:
+      uk: "{value} зображень на сторінці не мають опису в атрибуті alt"
+      en: "{value} of images on the page lack alt attributes"
+    thresholds:
+      warning_pct: 30
+      fail_pct: 70
+
+  - id: SEO-06
+    category: seo
+    weight: 1.0
+    impact: 3
+    effort: 2
+    service: technical_seo
+    service_label:
+      uk: впровадженням мікророзмітки та canonical
+      en: structured data and canonical setup
+    title:
+      uk: Відсутні структуровані дані або canonical
+      en: Missing structured data or canonical tag
+    description:
+      uk: Не налаштовані тег canonical та/або мікророзмітка Schema.org для кращого представлення в Google.
+      en: Missing rel=canonical and/or Schema.org structured data for search engines.
+    claim_template:
+      uk: "на сторінці відсутні SEO-елементи: {value}"
+      en: "missing SEO metadata elements: {value}"
+    thresholds:
+      require_both: true
+
+  # --- Security (15%) ---
+  - id: SEC-01
+    category: security
+    weight: 2.0
+    impact: 5
+    effort: 2
+    service: security_hardening
+    service_label:
+      uk: налаштуванням HTTPS та базової безпеки
+      en: HTTPS and security hardening
+    title:
+      uk: Сайт працює без HTTPS
+      en: Site is not using HTTPS
+    description:
+      uk: Відсутнє шифрування з’єднання, браузери позначають сайт як «Небезпечний».
+      en: The site lacks HTTPS encryption, causing browser security warnings.
+    claim_template:
+      uk: "сайт не використовує захищене з’єднання HTTPS ({value})"
+      en: "the website does not enforce HTTPS ({value})"
+    thresholds:
+      required: true
+
+  - id: SEC-02
+    category: security
+    weight: 1.5
+    impact: 5
+    effort: 1
+    service: security_hardening
+    service_label:
+      uk: оновленням SSL-сертифіката
+      en: SSL certificate renewal
+    title:
+      uk: Прострочений або спливаючий SSL-сертифікат
+      en: Expiring or expired SSL certificate
+    description:
+      uk: Термін дії TLS-сертифіката спливає менш ніж за 14 днів або вже минув.
+      en: The TLS certificate is expired or expires in fewer than 14 days.
+    claim_template:
+      uk: "стан SSL-сертифіката потребує уваги ({value})"
+      en: "the SSL certificate status requires attention ({value})"
+    thresholds:
+      warning_days: 14
+
+  - id: SEC-03
+    category: security
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: security_hardening
+    service_label:
+      uk: налаштуванням HTTP-заголовків безпеки
+      en: security HTTP headers configuration
+    title:
+      uk: Відсутні базові заголовки безпеки HTTP
+      en: Missing security HTTP headers
+    description:
+      uk: Сервер не повертає рекомендовані заголовки HSTS, X-Content-Type-Options або Content-Security-Policy.
+      en: Server responses omit HSTS, X-Content-Type-Options, or Content-Security-Policy headers.
+    claim_template:
+      uk: "у відповідях сервера відсутні заголовки безпеки ({value})"
+      en: "HTTP security headers are missing ({value})"
+    thresholds:
+      headers: ["Strict-Transport-Security", "X-Content-Type-Options", "Content-Security-Policy"]
+
+  - id: SEC-04
+    category: security
+    weight: 1.2
+    impact: 4
+    effort: 2
+    service: security_hardening
+    service_label:
+      uk: усуненням змішаного контенту (Mixed Content)
+      en: fixing Mixed Content issues
+    title:
+      uk: Змішаний контент (HTTP-ресурси на HTTPS-сторінці)
+      en: Mixed Content detected
+    description:
+      uk: На захищеній сторінці підключаються незахищені ресурси по HTTP.
+      en: Insecure HTTP resources are loaded on an HTTPS page.
+    claim_template:
+      uk: "на HTTPS-сторінці завантажуються незахищені HTTP-ресурси ({value})"
+      en: "insecure HTTP resources are loaded on the HTTPS page ({value})"
+    thresholds:
+      max_count: 0
+
+  - id: SEC-05
+    category: security
+    weight: 1.3
+    impact: 5
+    effort: 3
+    service: cms_upgrade_security
+    service_label:
+      uk: оновленням CMS та бібліотек із вразливостями
+      en: upgrading vulnerable CMS and libraries
+    title:
+      uk: Застарілі бібліотеки чи CMS із відомими вразливостями
+      en: Outdated libraries or CMS with known vulnerabilities
+    description:
+      uk: Виявлено версії JS-бібліотек або CMS, для яких відомі публічні вразливості безпеки.
+      en: Detected CMS or frontend library versions with known security vulnerabilities.
+    claim_template:
+      uk: "виявлено застарілі компоненти з відомими вразливостями ({value})"
+      en: "outdated components with known vulnerabilities were detected ({value})"
+    thresholds:
+      fail_on_match: true
+
+  # --- Accessibility (10%) ---
+  - id: A11Y-01
+    category: accessibility
+    weight: 1.5
+    impact: 4
+    effort: 2
+    service: accessibility_audit_fix
+    service_label:
+      uk: покращенням доступності інтерфейсу
+      en: web accessibility fixes
+    title:
+      uk: Серйозні порушення доступності (axe-core)
+      en: Serious accessibility violations (axe-core)
+    description:
+      uk: Автоматична перевірка виявила серйозні бар'єри для користувачів зі скрінрідерами та клавіатурою.
+      en: Automated accessibility checks found serious barriers for screen-reader and keyboard users.
+    claim_template:
+      uk: "перевірка доступності зафіксувала серйозні порушення: {value}"
+      en: "accessibility checks found serious issues: {value}"
+    thresholds:
+      warning_count: 1
+      fail_count: 3
+
+  - id: A11Y-02
+    category: accessibility
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: accessibility_audit_fix
+    service_label:
+      uk: покращенням читабельності та контрасту
+      en: text contrast improvements
+    title:
+      uk: Низький контраст тексту
+      en: Insufficient text color contrast
+    description:
+      uk: Текст на фоні має контраст менше 4,5:1, що погіршує читабельність.
+      en: Text contrast ratio falls below 4.5:1, reducing readability.
+    claim_template:
+      uk: "виявлено елементи з недостатнім контрастом тексту ({value})"
+      en: "elements with insufficient text contrast were detected ({value})"
+    thresholds:
+      min_ratio: 4.5
+      fail_count: 10
+
+  - id: A11Y-03
+    category: accessibility
+    weight: 1.0
+    impact: 3
+    effort: 1
+    service: accessibility_audit_fix
+    service_label:
+      uk: виправленням доступності форм
+      en: form accessibility fixes
+    title:
+      uk: Поля форм без підписів
+      en: Form inputs without accessible labels
+    description:
+      uk: Поля вводу у формах не мають прив’язаних label або aria-label.
+      en: Form input fields lack associated label or aria-label attributes.
+    claim_template:
+      uk: "у формах є поля вводу без програмних підписів ({value})"
+      en: "forms contain input fields without accessible labels ({value})"
+    thresholds:
+      max_unlabeled: 0
+
+  # --- Technology (10%) ---
+  - id: TECH-01
+    category: technology
+    weight: 1.5
+    impact: 4
+    effort: 3
+    service: cms_upgrade_security
+    service_label:
+      uk: модернізацією платформи сайту
+      en: website platform modernization
+    title:
+      uk: Застаріла версія CMS або фреймворку
+      en: Outdated CMS or framework version
+    description:
+      uk: Сайт працює на старій версії платформи, підтримка якої завершена або застаріла.
+      en: The website runs on an outdated or end-of-life CMS/framework version.
+    claim_template:
+      uk: "виявлено застарілу технологічну версію ({value})"
+      en: "an outdated platform version was detected ({value})"
+    thresholds:
+      check_eol: true
+
+  - id: TECH-02
+    category: technology
+    weight: 0.7
+    impact: 2
+    effort: 1
+    service: site_maintenance
+    service_label:
+      uk: підтримкою та оновленням сайту
+      en: website maintenance and updates
+    title:
+      uk: Застарілий рік у copyright
+      en: Outdated copyright year
+    description:
+      uk: У футері вказано старий рік копірайту, що створює враження занедбаного сайту.
+      en: The footer displays an outdated copyright year, making the site look unmaintained.
+    claim_template:
+      uk: "у футері вказано застарілий рік ({value})"
+      en: "the footer shows an outdated copyright year ({value})"
+    thresholds:
+      warning_years_old: 2
+      fail_years_old: 4
+
+  # --- Integrity (10%) ---
+  - id: INT-01
+    category: integrity
+    weight: 1.5
+    impact: 4
+    effort: 1
+    service: site_maintenance
+    service_label:
+      uk: виправленням битих сторінок і посилань
+      en: fixing broken internal links
+    title:
+      uk: Биті внутрішні посилання
+      en: Broken internal links
+    description:
+      uk: Частина внутрішніх посилань сайту веде на сторінки з помилками 4xx/5xx.
+      en: Several internal links return 4xx or 5xx error responses.
+    claim_template:
+      uk: "знайдено биті внутрішні посилання, що повертають помилку ({value})"
+      en: "broken internal links returning errors were found ({value})"
+    thresholds:
+      max_links_to_check: 25
+      warning_count: 1
+      fail_count: 5
+
+  - id: INT-02
+    category: integrity
+    weight: 1.0
+    impact: 3
+    effort: 2
+    service: site_maintenance
+    service_label:
+      uk: виправленням клієнтських помилок JavaScript
+      en: fixing frontend JavaScript errors
+    title:
+      uk: Помилки JavaScript у консолі браузера
+      en: Browser console JavaScript errors
+    description:
+      uk: Під час відкриття сторінок у консолі виникають необроблені JS-винятки, що можуть ламати інтерактив.
+      en: Unhandled JavaScript errors occur during page load, potentially breaking interactive features.
+    claim_template:
+      uk: "під час завантаження сторінки в консолі виникають помилки JavaScript ({value})"
+      en: "JavaScript errors occur in the browser console on load ({value})"
+    thresholds:
+      warning_count: 1
+      fail_count: 3
+
+  # --- Business Elements (5%) ---
+  - id: BIZ-01
+    category: business
+    weight: 1.2
+    impact: 4
+    effort: 1
+    service: conversion_optimization
+    service_label:
+      uk: покращенням конверсійних елементів на головній
+      en: homepage conversion optimization
+    title:
+      uk: Відсутні контакти на головній сторінці
+      en: Missing contact details on homepage
+    description:
+      uk: На головній сторінці не знайдено видимого телефону або email для швидкого зв’язку.
+      en: No visible phone number or email address was found on the homepage.
+    claim_template:
+      uk: "на головній сторінці не видно прямих контактів (телефону або email)"
+      en: "no direct contact details (phone or email) are visible on the homepage"
+    thresholds:
+      required: true
+
+  - id: BIZ-02
+    category: business
+    weight: 1.2
+    impact: 4
+    effort: 1
+    service: conversion_optimization
+    service_label:
+      uk: впровадженням форм захоплення заявок
+      en: lead capture form implementation
+    title:
+      uk: Відсутня форма зворотного зв’язку або онлайн-чат
+      en: Missing contact form or live chat
+    description:
+      uk: Користувач не може залишити заявку прямо зі сторінки через форму або чат.
+      en: Visitors cannot submit an inquiry directly via a form or chat widget.
+    claim_template:
+      uk: "на сайті не виявлено форми заявки або віджета онлайн-чату"
+      en: "no inquiry form or live chat widget was found on the site"
+    thresholds:
+      required: true
+
+  - id: BIZ-03
+    category: business
+    weight: 1.0
+    impact: 4
+    effort: 2
+    service: ecommerce_optimization
+    service_label:
+      uk: доопрацюванням елементів інтернет-магазину
+      en: e-commerce checkout improvements
+    title:
+      uk: Неповний цикл замовлення для інтернет-магазину
+      en: Incomplete e-commerce checkout elements
+    description:
+      uk: Для магазину не вистачає явної інформації про кошик, способи оплати або доставки.
+      en: The store lacks clear cart, payment, or delivery information.
+    claim_template:
+      uk: "для інтернет-магазину не вистачає обов’язкових елементів замовлення ({value})"
+      en: "essential e-commerce checkout information is missing ({value})"
+    thresholds:
+      store_only: true
+
+  - id: BIZ-04
+    category: business
+    weight: 0.8
+    impact: 3
+    effort: 1
+    service: conversion_optimization
+    service_label:
+      uk: посиленням факторів довіри на сайті
+      en: trust signals enhancement
+    title:
+      uk: Відсутні відгуки клієнтів або політика повернення
+      en: Missing customer reviews or return policy
+    description:
+      uk: На сайті не знайдено блоку відгуків чи умов повернення/гарантії, що знижує довіру нових покупців.
+      en: No customer reviews or return/warranty policy links were found, lowering trust.
+    claim_template:
+      uk: "на сайті відсутні фактори довіри ({value})"
+      en: "key trust signals are missing on the site ({value})"
+    thresholds:
+      require_both: true
+
+email_templates:
+  # 1. UK / Formal / Short
+  - language: uk
+    tone: formal
+    length: short
+    subject: "Що можна покращити на сайті {domain}"
+    body: |
+      Добрий день!
+
+      Я переглянув(-ла) сайт {domain} і помітив(-ла) кілька технічних моментів, які можуть знижувати кількість звернень:
+      {claims_block}
+
+      Ми допомагаємо з {primary_service}. Можу надіслати стислий звіт із деталями та підказати, з чого варто почати.
+
+      {signature}
+
+      Якщо такі листи для вас неактуальні, дайте знати — я більше не турбуватиму.
+
+  # 2. UK / Formal / Medium
+  - language: uk
+    tone: formal
+    length: medium
+    subject: "Спостереження щодо роботи сайту {domain}"
+    body: |
+      Вітаю!
+
+      Під час короткого технічного огляду сайту {domain} я зафіксував(-ла) конкретні речі, які зараз впливають на досвід відвідувачів та позиції в пошуку:
+      {claims_block}
+
+      Наша команда спеціалізується на таких завданнях, зокрема допомагає з {primary_service}. У нас уже підготовлений короткий звіт зі скріншотами та технічними вимірами саме для {domain}.
+
+      Якщо вам цікаво поглянути на перелік пріоритетних виправлень, буду радий(-а) надіслати його у відповідь на цей лист.
+
+      {signature}
+
+      Якщо подібні пропозиції вам не потрібні, просто повідомте, і я більше не писатиму.
+
+  # 3. UK / Friendly / Short
+  - language: uk
+    tone: friendly
+    length: short
+    subject: "Декілька ідей для сайту {domain}"
+    body: |
+      Привіт!
+
+      Зазирнув(-ла) на {domain} і звернув(-ла) увагу на кілька деталей, які легко підправити, щоб не втрачати клієнтів:
+      {claims_block}
+
+      Я допомагаю компаніям із {primary_service}. Якщо хочеш, можу скинути короткий звіт із прикладами, щоб було зручно передати в роботу.
+
+      {signature}
+
+      Якщо це зараз не на часі — дай знати, більше не писатиму.
+
+  # 4. UK / Friendly / Medium
+  - language: uk
+    tone: friendly
+    length: medium
+    subject: "Помітив(-ла) пару моментів на сайті {domain}"
+    body: |
+      Доброго дня!
+
+      Переглядав(-ла) ваш сайт {domain} — проєкт виглядає цікаво, але технічна перевірка підсвітила кілька речей, що заважають відвідувачам і пошуковій видачі:
+      {claims_block}
+
+      Я займаюся {primary_service} і вже зібрав(-ла) невеликий звіт із доказами та скріншотами саме по вашому сайту, без зайвої «води».
+
+      Підкажіть, чи буде зручно, якщо надішлю цей короткий розбір сюди? Можливо, частину пунктів ваша команда зможе закрити вже цього тижня.
+
+      {signature}
+
+      Якщо такі листи неактуальні — просто напишіть, і я більше не турбуватиму.
+
+  # 5. EN / Formal / Short
+  - language: en
+    tone: formal
+    length: short
+    subject: "Quick technical findings for {domain}"
+    body: |
+      Hello,
+
+      I reviewed {domain} and noticed a few specific technical issues that may be costing you leads:
+      {claims_block}
+
+      We help businesses with {primary_service}. I would be glad to share a concise report with screenshots and practical next steps.
+
+      {signature}
+
+      If you prefer not to receive messages like this, please let me know and I will not follow up.
+
+  # 6. EN / Formal / Medium
+  - language: en
+    tone: formal
+    length: medium
+    subject: "Technical review observations for {domain}"
+    body: |
+      Hello,
+
+      While reviewing {domain}, I ran an automated technical check and noticed several concrete areas affecting user experience and search visibility:
+      {claims_block}
+
+      Our team specializes in {primary_service}, and I have put together a brief, evidence-based summary with measurements and screenshots specific to {domain}.
+
+      Would you like me to send over the short report so your team can review the highest-impact fixes?
+
+      {signature}
+
+      If this is not relevant for your team, please let me know and I will make sure not to reach out again.
+
+  # 7. EN / Friendly / Short
+  - language: en
+    tone: friendly
+    length: short
+    subject: "A couple of quick wins for {domain}"
+    body: |
+      Hi there,
+
+      I took a quick look at {domain} and spotted a few easy-to-miss issues that could affect visitors:
+      {claims_block}
+
+      I work on {primary_service}. Happy to send over a short report with the exact screenshots and numbers if that would be helpful.
+
+      {signature}
+
+      If now isn't a good time, just let me know and I won't follow up.
+
+  # 8. EN / Friendly / Medium
+  - language: en
+    tone: friendly
+    length: medium
+    subject: "Spotted a few things to improve on {domain}"
+    body: |
+      Hi there,
+
+      I was checking out {domain} and noticed a few concrete things under the hood that might be holding back conversions:
+      {claims_block}
+
+      I help teams with {primary_service}, and I already saved a quick breakdown with the screenshots and measurements for {domain}.
+
+      Want me to send that short summary over? Even if you handle it in-house, it is a handy checklist to start from.
+
+      {signature}
+
+      If you'd rather not receive emails like this, just reply to let me know and I won't message again.

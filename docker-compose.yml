@@ -1,0 +1,206 @@
+name: leadlens
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: leadlens-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-leadlens}
+      POSTGRES_USER: ${POSTGRES_USER:-leadlens}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-leadlens_dev_password_change_me}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-leadlens} -d ${POSTGRES_DB:-leadlens}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: leadlens-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: pgsty/minio:latest
+    container_name: leadlens-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-leadlens_minio}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-leadlens_minio_secret_change_me}
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio-init:
+    image: pgsty/minio:latest
+    container_name: leadlens-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 $${MINIO_ROOT_USER:-leadlens_minio} $${MINIO_ROOT_PASSWORD:-leadlens_minio_secret_change_me} &&
+      mc mb --ignore-existing local/$${MINIO_BUCKET:-leadlens-artifacts};
+      exit 0;
+      "
+
+  crawler:
+    build:
+      context: ./services
+      dockerfile: Dockerfile.crawler
+    container_name: leadlens-crawler
+    environment:
+      SERVICE_NAME: crawler
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN:-dev_internal_service_token_change_me}
+      REDIS_URL: redis://redis:6379/1
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-leadlens_minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-leadlens_minio_secret_change_me}
+      MINIO_BUCKET: ${MINIO_BUCKET:-leadlens-artifacts}
+      PROFILES_DIR: /app/profiles
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY:-}
+      CRAWLER_USER_AGENT: ${CRAWLER_USER_AGENT:-LeadLensBot/1.0 (+https://leadlens.local/bot; contact=bot@leadlens.local)}
+      CRAWLER_RATE_LIMIT_RPS: ${CRAWLER_RATE_LIMIT_RPS:-1.0}
+    ports:
+      - "${CRAWLER_PORT:-8001}:8001"
+    volumes:
+      - ./profiles:/app/profiles:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  audit:
+    build:
+      context: ./services
+      dockerfile: Dockerfile.audit
+    container_name: leadlens-audit
+    environment:
+      SERVICE_NAME: audit
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN:-dev_internal_service_token_change_me}
+      REDIS_URL: redis://redis:6379/1
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-leadlens_minio}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-leadlens_minio_secret_change_me}
+      MINIO_BUCKET: ${MINIO_BUCKET:-leadlens-artifacts}
+      PROFILES_DIR: /app/profiles
+      AUDIT_TIMEOUT_SECONDS: ${AUDIT_TIMEOUT_SECONDS:-120}
+    ports:
+      - "${AUDIT_PORT:-8002}:8002"
+    volumes:
+      - ./profiles:/app/profiles:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8002/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ml:
+    build:
+      context: ./services
+      dockerfile: Dockerfile.ml
+    container_name: leadlens-ml
+    environment:
+      SERVICE_NAME: ml
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN:-dev_internal_service_token_change_me}
+      REDIS_URL: redis://redis:6379/1
+      PROFILES_DIR: /app/profiles
+    ports:
+      - "${ML_PORT:-8003}:8003"
+    volumes:
+      - ./profiles:/app/profiles:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8003/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: leadlens-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${POSTGRES_DB:-leadlens};Username=${POSTGRES_USER:-leadlens};Password=${POSTGRES_PASSWORD:-leadlens_dev_password_change_me}
+      ConnectionStrings__Redis: redis:6379
+      Jwt__Secret: ${JWT_SECRET:-dev_super_secret_jwt_key_at_least_32_characters_long}
+      Jwt__Issuer: ${JWT_ISSUER:-leadlens-api}
+      Jwt__Audience: ${JWT_AUDIENCE:-leadlens-web}
+      Jwt__AccessMinutes: ${JWT_ACCESS_MINUTES:-15}
+      Jwt__RefreshDays: ${JWT_REFRESH_DAYS:-7}
+      Services__CrawlerUrl: http://crawler:8001
+      Services__AuditUrl: http://audit:8002
+      Services__MlUrl: http://ml:8003
+      Services__InternalToken: ${INTERNAL_SERVICE_TOKEN:-dev_internal_service_token_change_me}
+      Minio__Endpoint: http://minio:9000
+      Minio__AccessKey: ${MINIO_ROOT_USER:-leadlens_minio}
+      Minio__SecretKey: ${MINIO_ROOT_PASSWORD:-leadlens_minio_secret_change_me}
+      Minio__Bucket: ${MINIO_BUCKET:-leadlens-artifacts}
+      Profiles__Directory: /app/profiles
+    ports:
+      - "${API_PORT:-5000}:5000"
+    volumes:
+      - ./profiles:/app/profiles:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/api/v1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: leadlens-frontend
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5000/api/v1}
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
