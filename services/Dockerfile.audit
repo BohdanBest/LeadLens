@@ -1,0 +1,24 @@
+FROM python:3.13-slim
+
+# Install Node.js 22 + Lighthouse CLI + axe-core + libatomic1 for Playwright driver
+RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg ca-certificates libatomic1 \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && npm install -g lighthouse@13.6.0 axe-core@4.10.2 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements-base.txt requirements-browser.txt ./
+RUN pip install --no-cache-dir -r requirements-browser.txt \
+    && playwright install --with-deps chromium \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY common ./common
+COPY crawler ./crawler
+COPY audit ./audit
+
+ENV PYTHONPATH=/app
+EXPOSE 8002
+
+CMD ["uvicorn", "audit.main:app", "--host", "0.0.0.0", "--port", "8002"]
