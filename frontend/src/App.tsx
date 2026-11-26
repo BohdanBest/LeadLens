@@ -8,11 +8,8 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Skeleton } from "@/components/ui/Skeleton/Skeleton";
 import styles from "./App.module.scss";
 
-const LoginPage = lazy(() =>
-  import("@/pages/LoginPage/LoginPage").then((m) => ({ default: m.LoginPage }))
-);
-const RegisterPage = lazy(() =>
-  import("@/pages/RegisterPage/RegisterPage").then((m) => ({ default: m.RegisterPage }))
+const AuthPage = lazy(() =>
+  import("@/pages/AuthPage/AuthPage").then((m) => ({ default: m.AuthPage }))
 );
 const DashboardPage = lazy(() =>
   import("@/pages/DashboardPage/DashboardPage").then((m) => ({ default: m.DashboardPage }))
@@ -102,21 +99,15 @@ export function App() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route
-            path="/login"
             element={
               <PublicOnlyRoute>
-                <LoginPage />
+                <AuthPage />
               </PublicOnlyRoute>
             }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicOnlyRoute>
-                <RegisterPage />
-              </PublicOnlyRoute>
-            }
-          />
+          >
+            <Route path="/login" element={null} />
+            <Route path="/register" element={null} />
+          </Route>
           <Route
             path="/public/reports/:token"
             element={

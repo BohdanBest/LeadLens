@@ -24,6 +24,8 @@
   position: relative;
   display: flex;
   align-items: center;
+  inline-size: 100%;
+  flex: 1;
 }
 
 .inputIcon {
