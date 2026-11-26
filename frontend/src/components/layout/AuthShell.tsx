@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { lazy, type ReactNode, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Aperture,
@@ -13,6 +13,10 @@ import {
 import { type ThemeChoice, type UiLanguage, useUiStore } from "@/stores/useUiStore";
 import { ToastViewport } from "@/components/ui/Toast/ToastViewport";
 import styles from "./AuthShell.module.scss";
+
+const LeadLensGlobe3D = lazy(() =>
+  import("@/components/three/LeadLensGlobe3D").then((m) => ({ default: m.LeadLensGlobe3D }))
+);
 
 export interface AuthShellProps {
   children: ReactNode;
@@ -86,36 +90,49 @@ export function AuthShell({ children, variant = "split" }: AuthShellProps) {
       >
         {variant === "split" && (
           <aside className={styles.aside}>
-            <div className={styles.asideInner}>
+            <div className={styles.asideTop}>
               <span className={styles.eyebrow}>{t("brandTagline")}</span>
+              <span className={styles.profileTag}>web_studio v1.0.0</span>
+            </div>
+
+            <div className={styles.stageArea}>
+              <Suspense fallback={null}>
+                <LeadLensGlobe3D />
+              </Suspense>
+            </div>
+
+            <div className={styles.asideInner}>
               <h2 className={styles.asideHeading}>LeadLens</h2>
               <ul className={styles.featureList}>
                 <li className={styles.featureItem}>
-                  <span className={styles.featureIcon} aria-hidden="true">
-                    <ShieldCheck size={22} weight="duotone" />
-                  </span>
-                  <div>
-                    <h3 className={styles.featureTitle}>{t("auth.feature1Title")}</h3>
-                    <p className={styles.featureDesc}>{t("auth.feature1Desc")}</p>
+                  <div className={styles.featureTop}>
+                    <span className={styles.featureIcon} aria-hidden="true">
+                      <ShieldCheck size={19} weight="duotone" />
+                    </span>
+                    <span className={styles.featureIndex}>01</span>
                   </div>
+                  <h3 className={styles.featureTitle}>{t("auth.feature1Title")}</h3>
+                  <p className={styles.featureDesc}>{t("auth.feature1Desc")}</p>
                 </li>
                 <li className={styles.featureItem}>
-                  <span className={styles.featureIcon} aria-hidden="true">
-                    <ChartLineUp size={22} weight="duotone" />
-                  </span>
-                  <div>
-                    <h3 className={styles.featureTitle}>{t("auth.feature2Title")}</h3>
-                    <p className={styles.featureDesc}>{t("auth.feature2Desc")}</p>
+                  <div className={styles.featureTop}>
+                    <span className={styles.featureIcon} aria-hidden="true">
+                      <ChartLineUp size={19} weight="duotone" />
+                    </span>
+                    <span className={styles.featureIndex}>02</span>
                   </div>
+                  <h3 className={styles.featureTitle}>{t("auth.feature2Title")}</h3>
+                  <p className={styles.featureDesc}>{t("auth.feature2Desc")}</p>
                 </li>
                 <li className={styles.featureItem}>
-                  <span className={styles.featureIcon} aria-hidden="true">
-                    <EnvelopeSimple size={22} weight="duotone" />
-                  </span>
-                  <div>
-                    <h3 className={styles.featureTitle}>{t("auth.feature3Title")}</h3>
-                    <p className={styles.featureDesc}>{t("auth.feature3Desc")}</p>
+                  <div className={styles.featureTop}>
+                    <span className={styles.featureIcon} aria-hidden="true">
+                      <EnvelopeSimple size={19} weight="duotone" />
+                    </span>
+                    <span className={styles.featureIndex}>03</span>
                   </div>
+                  <h3 className={styles.featureTitle}>{t("auth.feature3Title")}</h3>
+                  <p className={styles.featureDesc}>{t("auth.feature3Desc")}</p>
                 </li>
               </ul>
             </div>

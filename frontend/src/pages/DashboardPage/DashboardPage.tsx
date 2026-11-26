@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Bug,
   ChartBar,
+  Cube,
   FolderOpen,
   FunnelSimple,
   Gauge,
@@ -25,7 +26,12 @@ import { DataTable } from "@/components/ui/DataTable/DataTable";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { Skeleton } from "@/components/ui/Skeleton/Skeleton";
 import { AlertBanner } from "@/components/ui/FormField/FormField";
+import type { Bar3DItem } from "@/components/three/Dashboard3DScene";
 import styles from "./DashboardPage.module.scss";
+
+const Dashboard3DScene = lazy(() =>
+  import("@/components/three/Dashboard3DScene").then((m) => ({ default: m.Dashboard3DScene }))
+);
 
 function KpiTile({
   label,
@@ -119,6 +125,7 @@ export function DashboardPage() {
 
   const [period, setPeriod] = useState<"7d" | "30d" | "12m">("30d");
   const [tableMode, setTableMode] = useState(false);
+  const [sceneMode, setSceneMode] = useState<"need" | "campaigns">("need");
 
   const { data, isLoading, error } = useDashboard(period);
 
@@ -182,6 +189,63 @@ export function DashboardPage() {
     const weightedCount = data.campaignAverageScores.reduce((acc, c) => acc + c.leadsCount, 0);
     const avgScore = weightedCount > 0 ? weightedSum / weightedCount : 0;
 
+    const need3dItems: Bar3DItem[] = [
+      {
+        id: "Healthy",
+        label: t("badges.need.Healthy"),
+        value: dist.healthy,
+        displayValue: `${dist.healthy}`,
+        tone: "healthy",
+        href: "/leads?level=Healthy",
+        actionHint: t("dashboard.scene3dClickLead"),
+      },
+      {
+        id: "Moderate",
+        label: t("badges.need.Moderate"),
+        value: dist.moderate,
+        displayValue: `${dist.moderate}`,
+        tone: "moderate",
+        href: "/leads?level=Moderate",
+        actionHint: t("dashboard.scene3dClickLead"),
+      },
+      {
+        id: "Weak",
+        label: t("badges.need.Weak"),
+        value: dist.weak,
+        displayValue: `${dist.weak}`,
+        tone: "weak",
+        href: "/leads?level=Weak",
+        actionHint: t("dashboard.scene3dClickLead"),
+      },
+      {
+        id: "Critical",
+        label: t("badges.need.Critical"),
+        value: dist.critical,
+        displayValue: `${dist.critical}`,
+        tone: "critical",
+        href: "/leads?level=Critical",
+        actionHint: t("dashboard.scene3dClickLead"),
+      },
+    ];
+
+    const campaign3dItems: Bar3DItem[] = data.campaignAverageScores.slice(0, 8).map((c) => ({
+      id: c.campaignId,
+      label: c.campaignName,
+      value: c.averageScore,
+      displayValue: `${c.averageScore.toFixed(1)}`,
+      subtext: `${c.leadsCount} ${t("campaigns.sitesCount")}`,
+      tone:
+        c.averageScore >= 75
+          ? "critical"
+          : c.averageScore >= 50
+            ? "weak"
+            : c.averageScore >= 25
+              ? "moderate"
+              : "healthy",
+      href: `/campaigns/${c.campaignId}`,
+      actionHint: t("dashboard.scene3dClickCampaign"),
+    }));
+
     return {
       needBars,
       maxNeed,
@@ -190,6 +254,8 @@ export function DashboardPage() {
       topIssueBars,
       maxIssue,
       campaignBars,
+      need3dItems,
+      campaign3dItems,
       weakAndCritical: dist.weak + dist.critical,
       avgScore,
     };
@@ -305,7 +371,45 @@ export function DashboardPage() {
               />
             </div>
           ) : (
-            <div className={styles.chartsGrid} data-animate="page-section">
+            <>
+              {!tableMode && (
+                <div data-animate="page-section">
+                  <Card>
+                    <CardHeader
+                      title={t("dashboard.scene3dTitle")}
+                      subtitle={t("dashboard.scene3dSubtitle")}
+                      icon={<Cube size={20} weight="duotone" />}
+                      action={
+                        derived.campaign3dItems.length > 0 ? (
+                          <Tabs
+                            variant="segmented"
+                            ariaLabel={t("dashboard.scene3dTitle")}
+                            value={sceneMode}
+                            onChange={setSceneMode}
+                            options={[
+                              { value: "need", label: t("dashboard.scene3dModeNeed") },
+                              { value: "campaigns", label: t("dashboard.scene3dModeCampaigns") },
+                            ]}
+                          />
+                        ) : undefined
+                      }
+                    />
+                    <Suspense fallback={<Skeleton variant="card" />}>
+                      <Dashboard3DScene
+                        items={
+                          sceneMode === "campaigns" && derived.campaign3dItems.length > 0
+                            ? derived.campaign3dItems
+                            : derived.need3dItems
+                        }
+                        maxValue={sceneMode === "campaigns" ? 100 : derived.maxNeed}
+                        onSelect={(item) => navigate(item.href)}
+                      />
+                    </Suspense>
+                  </Card>
+                </div>
+              )}
+
+              <div className={styles.chartsGrid} data-animate="page-section">
               <Card>
                 <CardHeader
                   title={t("dashboard.needDistTitle")}
@@ -448,6 +552,7 @@ export function DashboardPage() {
                 )}
               </Card>
             </div>
+            </>
           )}
         </>
       )}

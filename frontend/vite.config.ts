@@ -22,6 +22,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) return undefined;
+          if (id.includes("three")) return "three";
           if (id.includes("gsap")) return "motion";
           if (id.includes("@phosphor-icons")) return "icons";
           if (id.includes("@tanstack/react-query") || id.includes("zustand")) return "state";

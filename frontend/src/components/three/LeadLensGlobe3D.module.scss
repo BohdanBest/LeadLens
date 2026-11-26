@@ -1,0 +1,65 @@
+.wrap {
+  position: relative;
+  inline-size: 100%;
+  block-size: clamp(420px, 52vh, 520px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.globe {
+  inline-size: 100%;
+  flex: 1;
+  min-block-size: 0;
+  cursor: grab;
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.dock {
+  position: relative;
+  margin-block-start: calc(var(--space-2) * -1);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.24rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-hover);
+}
+
+.dockBtn {
+  min-block-size: 34px;
+  padding: 0.3rem 0.85rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
+}
+
+.dockBtnActive {
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-weight: 700;
+
+  &:hover {
+    background: var(--accent-hover);
+    color: var(--text-inverse);
+  }
+}
